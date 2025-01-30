@@ -1,7 +1,7 @@
 import { Providers } from "./providers";
 
 import Header from "@/components/Header";
-import Footer from "@/components/Footer";
+
 import { Toaster } from "@/components/ui/toaster";
 import "./globals.css";
 
@@ -24,7 +24,6 @@ export default function RootLayout({
           <div className="flex min-h-screen flex-col">
             <Header />
             {children}
-            <Footer />
             <Toaster />
           </div>
         </Providers>

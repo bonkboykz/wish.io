@@ -29,7 +29,7 @@ export default function Register() {
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
       <Card className="w-full max-w-md">
         <CardHeader>
-          <CardTitle>Регистрация в Wishio</CardTitle>
+          <CardTitle>Регистрация</CardTitle>
           <CardDescription>
             Создайте аккаунт, чтобы начать использовать Wishio
           </CardDescription>

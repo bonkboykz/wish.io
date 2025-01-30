@@ -49,7 +49,7 @@ export default function CreateWishlist() {
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
                 className="col-span-3"
-                placeholder="Например: День рождения 2025"
+                placeholder=" День рождения 2025"
                 required
               />
             </div>
