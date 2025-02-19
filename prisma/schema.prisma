@@ -8,16 +8,17 @@ datasource db {
 }
 
 model User {
-    id            String     @id @default(cuid())
-    name          String?
-    email         String     @unique
-    password      String?
-    image         String?
-    emailVerified DateTime?
-    birthdate     DateTime?
-    createdAt     DateTime   @default(now())
-    updatedAt     DateTime   @updatedAt
-    wishLists     WishList[]
+    id             String     @id @default(cuid())
+    name           String?
+    email          String     @unique
+    password       String?
+    image          String?
+    emailVerified  DateTime?
+    birthdate      DateTime?
+    createdAt      DateTime   @default(now())
+    updatedAt      DateTime   @updatedAt
+    wishLists      WishList[]
+    reservedWishes Wish[]     @relation("ReservedWishes")
 }
 
 model VerificationToken {
@@ -74,6 +75,7 @@ model Wish {
     status      WishStatus     @default(UNRESERVED)
     wishLists   WishListWish[]
     reservedBy  String?
+    reserver    User?          @relation("ReservedWishes", fields: [reservedBy], references: [id])
 }
 
 model WishListWish {

@@ -18,13 +18,20 @@ export default function Hero() {
             Начать бесплатно
           </Button>
         </div>
-        <div className="md:w-1/2">
+        <div className="md:w-1/3">
           <Image
-            src="/placeholder.svg?height=400&width=400"
+            src="/Reserved.jpg"
             alt="Wishio illustration"
-            width={400}
-            height={400}
-            className="rounded-lg shadow-lg"
+            width={600}
+            height={350}
+            className="hidden md:block md:rounded-lg md:shadow-lg md:min-w-[600px] md:max-h-[350px] md:w-full md:object-cover"
+          />
+          <Image
+            src="/Reserved.jpg"
+            alt="wishio illutration mobile"
+            width={320}
+            height={560}
+            className="rounded-lg shadow-lg md:hidden"
           />
         </div>
       </div>

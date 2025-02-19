@@ -33,15 +33,24 @@ export function MobileMenu({ isLoggedIn, onLogout }: MobileMenuProps) {
             Главная
           </Link>
           {isLoggedIn && (
-            <Link href="/dashboard" onClick={() => setOpen(false)}>
-              Мои списки
-            </Link>
+            <div>
+              <Link href="/dashboard" onClick={() => setOpen(false)}>
+                Мои списки
+              </Link>
+            </div>
+          )}
+          {isLoggedIn && (
+            <div>
+              <Link href="/my-reserves" onClick={() => setOpen(false)}>
+                Мои резервы
+              </Link>
+            </div>
           )}
           {isLoggedIn ? (
             <>
               <div className="flex items-center space-x-4">
                 <Avatar>
-                  <AvatarImage src="/placeholder.svg" alt="User avatar" />
+                  <AvatarImage src="/placeholder.png" alt="User avatar" />
                   <AvatarFallback>U</AvatarFallback>
                 </Avatar>
                 <span>Профиль пользователя</span>

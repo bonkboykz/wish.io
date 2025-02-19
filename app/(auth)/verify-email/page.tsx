@@ -41,9 +41,10 @@ export default function VerifyEmail() {
           setStatus("error");
           setMessage(data.message || "Verification failed");
         }
-      } catch (error) {
+      } catch (e) {
         setStatus("error");
         setMessage("An error occurred during verification");
+        console.error(e);
       }
     };
 
@@ -59,8 +60,8 @@ export default function VerifyEmail() {
             status === "error"
               ? "text-red-500"
               : status === "success"
-              ? "text-green-500"
-              : "text-gray-600"
+                ? "text-green-500"
+                : "text-gray-600"
           }`}
         >
           {message}

@@ -12,52 +12,75 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from "../components/ui/dialog";
-import { Pencil } from "lucide-react";
+import { toast } from "@/hooks/use-toast";
+import { useChange } from "@/hooks/useIsChange";
 
 interface EditWishlistProps {
-  id: string;
-  title: string;
-  description: string;
-  date: string;
-  onSave: (
-    id: string,
-    title: string,
-    description: string,
-    date: string
-  ) => void;
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
+  wishlistId: string;
+  initialTitle: string;
+  initialDeadline: string;
 }
 
 export default function EditWishlist({
-  id,
-  title: initialTitle,
-  description: initialDescription,
-  date: initialDate,
-  onSave,
+  open,
+  onOpenChange,
+  wishlistId,
+  initialTitle,
+  initialDeadline,
 }: EditWishlistProps) {
   const [title, setTitle] = useState(initialTitle);
-  const [description, setDescription] = useState(initialDescription);
-  const [date, setDate] = useState(initialDate);
+  const [deadline, setDeadline] = useState(initialDeadline);
+  const [description, setDescription] = useState("");
+  const { isChangeFetch, setIsChangeFetch } = useChange();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    onSave(id, title, description, date);
+    console.log("Сохраняем изменения:", {
+      wishlistId,
+      title,
+      deadline,
+      description,
+    });
+    try {
+      const response = await fetch(`/api/wishlists/${wishlistId}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          title: title,
+          description: "description",
+          deadline: deadline,
+          status: "ACTIVE",
+        }),
+      });
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.error || "Ошибка при редактировании");
+      }
+      toast({
+        title: "Отредактировано",
+        description: "Список успешно отредактирован",
+      });
+      await setIsChangeFetch(!isChangeFetch);
+    } catch (e) {
+      console.error("Ошибка при редактировании:", e);
+      toast({ title: "Ошибка", description: "Попробуйте еще раз" });
+    } finally {
+    }
+    onOpenChange(false);
   };
 
   return (
-    <Dialog>
-      <DialogTrigger asChild>
-        <Button variant="outline">
-          <Pencil className="mr-2 h-4 w-4" />
-          Редактировать
-        </Button>
-      </DialogTrigger>
+    <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
           <DialogTitle>Редактировать список желаний</DialogTitle>
           <DialogDescription>
-            Внесите изменения в ваш список желаний
+            Измените поля списка или сохраните как есть
           </DialogDescription>
         </DialogHeader>
         <form onSubmit={handleSubmit}>
@@ -72,6 +95,15 @@ export default function EditWishlist({
               />
             </div>
             <div>
+              <Label htmlFor="deadline">Дата</Label>
+              <Input
+                id="deadline"
+                type="date"
+                value={deadline}
+                onChange={(e) => setDeadline(e.target.value)}
+              />
+            </div>
+            <div>
               <Label htmlFor="description">Описание</Label>
               <Textarea
                 id="description"
@@ -79,19 +111,9 @@ export default function EditWishlist({
                 onChange={(e) => setDescription(e.target.value)}
               />
             </div>
-            <div>
-              <Label htmlFor="date">Дата события</Label>
-              <Input
-                id="date"
-                type="date"
-                value={date}
-                onChange={(e) => setDate(e.target.value)}
-                required
-              />
-            </div>
           </div>
           <DialogFooter>
-            <Button type="submit">Сохранить изменения</Button>
+            <Button type="submit">Сохранить</Button>
           </DialogFooter>
         </form>
       </DialogContent>

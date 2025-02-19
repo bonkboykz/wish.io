@@ -52,6 +52,7 @@ export async function GET() {
         email: session.user.email,
       },
       select: {
+        id: true,
         name: true,
         email: true,
         image: true,
